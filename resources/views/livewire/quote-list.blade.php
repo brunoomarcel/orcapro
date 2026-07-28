@@ -1,11 +1,11 @@
 <div>
     <!-- Top Header -->
-    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
         <div>
-            <h1 class="font-heading font-extrabold text-3xl text-on-surface tracking-tight">Painel de Controle</h1>
-            <p class="text-secondary text-sm mt-1">Visão geral dos seus orçamentos e clientes</p>
+            <h1 class="font-heading font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight">Painel de Controle</h1>
+            <p class="text-secondary text-xs md:text-sm mt-0.5 md:mt-1">Visão geral dos seus orçamentos e clientes</p>
         </div>
-        <a href="{{ route('quotes.create') }}" class="bg-primary text-on-primary font-heading font-bold text-sm px-5 py-3 rounded-xl flex items-center gap-2 shadow-sm hover:bg-primary-container transition-all active:scale-[0.98]">
+        <a href="{{ route('quotes.create') }}" class="w-full sm:w-auto bg-primary text-on-primary font-heading font-bold text-sm px-5 py-3 rounded-xl flex items-center justify-center gap-2 shadow-sm hover:bg-primary-container transition-all active:scale-[0.98]">
             <span class="material-symbols-outlined text-lg">add</span>
             <span>Novo Orçamento</span>
         </a>
@@ -29,14 +29,14 @@
                 class="w-full pl-11 pr-4 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:bg-white transition-all"
             />
         </div>
-        <div class="text-xs text-secondary font-semibold">
+        <div class="text-xs text-secondary font-semibold w-full sm:w-auto text-right">
             Mostrando <span class="text-on-surface font-bold">{{ count($quotes) }}</span> orçamentos
         </div>
     </div>
 
     <!-- Quotes Grid -->
     @if (count($quotes) === 0)
-        <div class="glass-card rounded-2xl p-16 text-center space-y-4">
+        <div class="glass-card rounded-2xl p-8 md:p-16 text-center space-y-4">
             <div class="w-16 h-16 rounded-full bg-primary-fixed text-primary flex items-center justify-center mx-auto">
                 <span class="material-symbols-outlined text-3xl">description</span>
             </div>
@@ -50,9 +50,9 @@
             </a>
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             @foreach ($quotes as $quote)
-                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-5 hover:border-primary/40 hover:shadow-md transition-all">
+                <div class="glass-card rounded-2xl p-5 md:p-6 flex flex-col justify-between space-y-4 md:space-y-5 hover:border-primary/40 hover:shadow-md transition-all">
                     <div>
                         <div class="flex justify-between items-center">
                             <span class="text-xs font-mono font-bold px-2.5 py-1 bg-surface-container text-on-surface-variant rounded-lg">
@@ -71,20 +71,20 @@
                             </span>
                         </div>
 
-                        <h3 class="font-heading font-bold text-base text-on-surface mt-4 truncate">{{ $quote->client_name }}</h3>
+                        <h3 class="font-heading font-bold text-base text-on-surface mt-3 truncate">{{ $quote->client_name }}</h3>
                         <p class="text-xs text-secondary mt-1">Total do Orçamento:</p>
                         <p class="text-xl font-heading font-extrabold text-primary mt-0.5">
                             R$ {{ number_format($quote->total_amount, 2, ',', '.') }}
                         </p>
                     </div>
 
-                    <div class="pt-4 border-t border-outline-variant/30 flex items-center justify-between text-xs">
-                        <div class="flex gap-2">
-                            <a href="{{ route('quotes.edit', $quote->id) }}" class="flex items-center gap-1 px-3 py-1.5 bg-surface-container-low text-on-surface-variant font-bold rounded-lg hover:bg-surface-container transition-colors">
+                    <div class="pt-4 border-t border-outline-variant/30 flex items-center justify-between text-xs gap-2">
+                        <div class="flex gap-2 flex-1">
+                            <a href="{{ route('quotes.edit', $quote->id) }}" class="flex-1 sm:flex-none justify-center flex items-center gap-1 px-3 py-2 bg-surface-container-low text-on-surface-variant font-bold rounded-lg hover:bg-surface-container transition-colors min-h-[38px]">
                                 <span class="material-symbols-outlined text-sm">edit</span>
                                 <span>Editar</span>
                             </a>
-                            <a href="{{ route('quotes.public', $quote->public_token) }}" target="_blank" class="flex items-center gap-1 px-3 py-1.5 bg-tertiary/10 text-tertiary font-bold rounded-lg hover:bg-tertiary/20 transition-colors">
+                            <a href="{{ route('quotes.public', $quote->public_token) }}" target="_blank" class="flex-1 sm:flex-none justify-center flex items-center gap-1 px-3 py-2 bg-tertiary/10 text-tertiary font-bold rounded-lg hover:bg-tertiary/20 transition-colors min-h-[38px]">
                                 <span class="material-symbols-outlined text-sm">visibility</span>
                                 <span>Ver</span>
                             </a>
@@ -92,7 +92,7 @@
                         <button
                             wire:click="deleteQuote('{{ $quote->id }}')"
                             wire:confirm="Tem certeza de que deseja excluir permanentemente este orçamento?"
-                            class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors min-h-[38px] min-w-[38px] flex items-center justify-center"
                             title="Excluir"
                         >
                             <span class="material-symbols-outlined text-base">delete</span>
@@ -103,3 +103,4 @@
         </div>
     @endif
 </div>
+
