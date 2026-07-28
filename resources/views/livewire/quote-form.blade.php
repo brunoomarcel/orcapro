@@ -1,160 +1,165 @@
 <div>
-    <x-slot name="header">
-        <div class="flex items-center gap-3">
-            <a href="{{ route('dashboard') }}" class="p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
-                ← Voltar
-            </a>
-            <div>
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ $quoteId ? 'Editar Orçamento' : 'Novo Orçamento' }}
-                </h2>
-                <p class="text-xs text-gray-500">Preencha as informações do cliente e os serviços prestados</p>
+    <header class="flex items-center gap-3 mb-8">
+        <a href="{{ route('dashboard') }}" class="p-2 bg-surface-container text-secondary hover:text-on-surface rounded-xl transition-colors">
+            <span class="material-symbols-outlined text-xl">arrow_back</span>
+        </a>
+        <div>
+            <h1 class="font-heading font-extrabold text-3xl text-on-surface tracking-tight">
+                {{ $quoteId ? 'Editar Orçamento' : 'Novo Orçamento' }}
+            </h1>
+            <p class="text-secondary text-sm">Preencha os detalhes do cliente e insira os serviços</p>
+        </div>
+    </header>
+
+    <form wire:submit="save" class="max-w-4xl space-y-6">
+
+        <!-- Client Information Card -->
+        <div class="glass-card p-6 rounded-2xl space-y-4">
+            <h3 class="font-heading font-bold text-base text-on-surface border-b border-outline-variant/30 pb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">person</span>
+                <span>Dados do Cliente</span>
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-secondary mb-1">Nome do Cliente *</label>
+                    <input
+                        type="text"
+                        wire:model="client_name"
+                        required
+                        placeholder="Ex: Maria Oliveira"
+                        class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/40 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary/40 focus:outline-none"
+                    />
+                    @error('client_name') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-secondary mb-1">CPF / CNPJ</label>
+                    <input
+                        type="text"
+                        wire:model="client_document"
+                        placeholder="000.000.000-00"
+                        class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/40 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary/40 focus:outline-none"
+                    />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-secondary mb-1">E-mail</label>
+                    <input
+                        type="email"
+                        wire:model="client_email"
+                        placeholder="cliente@email.com"
+                        class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/40 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary/40 focus:outline-none"
+                    />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-secondary mb-1">WhatsApp / Telefone</label>
+                    <input
+                        type="text"
+                        wire:model="client_phone"
+                        placeholder="(11) 99999-9999"
+                        class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/40 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary/40 focus:outline-none"
+                    />
+                </div>
             </div>
         </div>
-    </x-slot>
 
-    <div class="py-6">
-        <form wire:submit="save" class="max-w-4xl mx-auto space-y-6">
-
-            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
-                <h3 class="font-bold text-gray-900 border-b border-gray-100 pb-2">Dados do Cliente</h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Nome do Cliente *</label>
-                        <input
-                            type="text"
-                            wire:model="client_name"
-                            required
-                            placeholder="Ex: Maria Santos"
-                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        />
-                        @error('client_name') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">CPF / CNPJ</label>
-                        <input
-                            type="text"
-                            wire:model="client_document"
-                            placeholder="000.000.000-00"
-                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">E-mail</label>
-                        <input
-                            type="email"
-                            wire:model="client_email"
-                            placeholder="cliente@email.com"
-                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">WhatsApp / Telefone</label>
-                        <input
-                            type="text"
-                            wire:model="client_phone"
-                            placeholder="(11) 99999-9999"
-                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
-                <div class="flex justify-between items-center border-b border-gray-100 pb-2">
-                    <h3 class="font-bold text-gray-900">Itens e Serviços</h3>
-                    <button
-                        type="button"
-                        wire:click="addItem"
-                        class="px-3 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700"
-                    >
-                        + Adicionar Item
-                    </button>
-                </div>
-
-                <div class="space-y-3">
-                    @foreach ($items as $index => $item)
-                        <div class="flex flex-col md:flex-row gap-3 items-end bg-gray-50 p-3 rounded-lg border border-gray-200">
-                            <div class="flex-1 w-full">
-                                <label class="block text-[11px] font-semibold text-gray-600 mb-1">Descrição</label>
-                                <input
-                                    type="text"
-                                    wire:model="items.{{ $index }}.description"
-                                    required
-                                    placeholder="Ex: Reforma de pintura residencial"
-                                    class="w-full px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-md"
-                                />
-                            </div>
-
-                            <div class="w-full md:w-28">
-                                <label class="block text-[11px] font-semibold text-gray-600 mb-1">Qtd</label>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    min="0.01"
-                                    wire:model.live="items.{{ $index }}.quantity"
-                                    class="w-full px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-md text-center"
-                                />
-                            </div>
-
-                            <div class="w-full md:w-36">
-                                <label class="block text-[11px] font-semibold text-gray-600 mb-1">Preço Unit. (R$)</label>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    wire:model.live="items.{{ $index }}.unit_price"
-                                    class="w-full px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-md text-right"
-                                />
-                            </div>
-
-                            <button
-                                type="button"
-                                wire:click="removeItem({{ $index }})"
-                                class="p-2 text-red-600 hover:bg-red-50 rounded-md"
-                                title="Remover"
-                            >
-                                ✕
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="pt-4 border-t border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="w-full md:w-48">
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Desconto (R$)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            wire:model.live="discount"
-                            class="w-full px-3 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg"
-                        />
-                    </div>
-
-                    <div class="text-right space-y-1 w-full md:w-auto">
-                        <p class="text-xs text-gray-500">Subtotal: R$ {{ number_format($subtotal, 2, ',', '.') }}</p>
-                        <p class="text-lg font-bold text-gray-900">Total: <span class="text-emerald-600">R$ {{ number_format($total, 2, ',', '.') }}</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex justify-end gap-3">
-                <a href="{{ route('dashboard') }}" class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200">
-                    Cancelar
-                </a>
+        <!-- Line Items Card -->
+        <div class="glass-card p-6 rounded-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+                <h3 class="font-heading font-bold text-base text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-xl">format_list_bulleted</span>
+                    <span>Itens & Serviços</span>
+                </h3>
                 <button
-                    type="submit"
-                    class="px-6 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 shadow-sm"
+                    type="button"
+                    wire:click="addItem"
+                    class="bg-primary-fixed text-primary hover:bg-primary/20 px-3.5 py-1.5 rounded-xl font-heading font-bold text-xs flex items-center gap-1 transition-colors"
                 >
-                    Salvar Orçamento
+                    <span class="material-symbols-outlined text-base">add</span>
+                    <span>Adicionar Item</span>
                 </button>
             </div>
 
-        </form>
-    </div>
+            <div class="space-y-3">
+                @foreach ($items as $index => $item)
+                    <div class="flex flex-col md:flex-row gap-3 items-end bg-surface-container-low p-4 rounded-xl border border-outline-variant/30">
+                        <div class="flex-1 w-full">
+                            <label class="block text-[11px] font-bold text-secondary mb-1">Descrição</label>
+                            <input
+                                type="text"
+                                wire:model="items.{{ $index }}.description"
+                                required
+                                placeholder="Ex: Reforma de pintura e revestimento"
+                                class="w-full px-3.5 py-2 text-sm bg-white border border-outline-variant/40 rounded-lg focus:ring-2 focus:ring-primary/40 focus:outline-none"
+                            />
+                        </div>
+
+                        <div class="w-full md:w-28">
+                            <label class="block text-[11px] font-bold text-secondary mb-1">Qtd</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                min="0.01"
+                                wire:model.live="items.{{ $index }}.quantity"
+                                class="w-full px-3 py-2 text-sm bg-white border border-outline-variant/40 rounded-lg text-center font-bold"
+                            />
+                        </div>
+
+                        <div class="w-full md:w-36">
+                            <label class="block text-[11px] font-bold text-secondary mb-1">Preço Unit. (R$)</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                wire:model.live="items.{{ $index }}.unit_price"
+                                class="w-full px-3 py-2 text-sm bg-white border border-outline-variant/40 rounded-lg text-right font-bold"
+                            />
+                        </div>
+
+                        <button
+                            type="button"
+                            wire:click="removeItem({{ $index }})"
+                            class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Remover Item"
+                        >
+                            <span class="material-symbols-outlined text-lg">delete</span>
+                        </button>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="pt-4 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="w-full md:w-48">
+                    <label class="block text-xs font-bold text-secondary mb-1">Desconto (R$)</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        wire:model.live="discount"
+                        class="w-full px-3.5 py-2 text-sm bg-surface-container-low border border-outline-variant/40 rounded-xl font-bold"
+                    />
+                </div>
+
+                <div class="text-right space-y-1 w-full md:w-auto">
+                    <p class="text-xs text-secondary font-semibold">Subtotal: R$ {{ number_format($subtotal, 2, ',', '.') }}</p>
+                    <p class="text-xl font-heading font-extrabold text-primary">Total: R$ {{ number_format($total, 2, ',', '.') }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+            <a href="{{ route('dashboard') }}" class="px-6 py-3 bg-surface-container text-secondary rounded-xl text-sm font-bold hover:bg-surface-container-high transition-colors">
+                Cancelar
+            </a>
+            <button
+                type="submit"
+                class="px-6 py-3 bg-primary text-on-primary rounded-xl text-sm font-heading font-bold hover:bg-primary-container shadow-sm transition-all"
+            >
+                Salvar Orçamento
+            </button>
+        </div>
+
+    </form>
 </div>
