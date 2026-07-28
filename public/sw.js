@@ -1,8 +1,8 @@
 const CACHE_NAME = 'orcapro-v1';
 const ASSETS_TO_CACHE = [
-  '/',
   '/manifest.json',
   '/favicon.ico',
+  '/icons/icon.svg',
   'https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Work+Sans:wght@400;500;600&display=swap',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap'
 ];
@@ -32,7 +32,11 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Do not intercept or cache POST/PUT/DELETE requests or HTML navigation
   if (event.request.method !== 'GET') return;
+
+  // Skip caching HTML page navigations to keep CSRF tokens fresh
+  if (event.request.mode === 'navigate') return;
 
   event.respondWith(
     fetch(event.request)
@@ -46,11 +50,8 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       })
       .catch(() => {
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-        });
+        return caches.match(event.request);
       })
   );
 });
+
