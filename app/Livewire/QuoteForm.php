@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Company;
 use App\Models\Quote;
 use App\Models\QuoteItem;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,7 @@ class QuoteForm extends Component
         ]);
 
         $user = Auth::user();
-        $company = $user->company;
+        $company = $user->company ?? Company::create(['user_id' => $user->id, 'name' => 'Minha Empresa']);
 
         $subtotal = collect($this->items)->sum(fn ($i) => ($i['quantity'] ?? 0) * ($i['unit_price'] ?? 0));
         $totalAmount = max(0, $subtotal - $this->discount);
